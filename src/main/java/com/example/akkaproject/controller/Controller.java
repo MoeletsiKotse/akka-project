@@ -40,8 +40,8 @@ public class Controller {
 
     @PostMapping("/helm-create")
     private ResponseEntity<String> createHelm (@RequestParam String name) throws IOException {
-        String[] command = {"kubectl apply -f /demo-service.YAML"};
-        Process process = Runtime.getRuntime().exec("deployment-file-2.YAML");
+        String[] command = {"kubectl apply -f /demo-service.yaml"};
+        Process process = Runtime.getRuntime().exec("deployment-file-2.yaml");
         log.info("process: {}",process);
         System.out.println(process);
         return ResponseEntity.ok("Deployed........");
@@ -67,9 +67,9 @@ public class Controller {
 
     @GetMapping("/deploy")
     private ResponseEntity<String> deploy () throws IOException {
-        String[] command = {"kubectl apply -f /demo-service.YAML"};
+        String[] command = {"kubectl apply -f /demo-service.yaml"};
         //System.getProperties();
-        Process process = Runtime.getRuntime().exec("deployment-file-2.YAML");
+        Process process = Runtime.getRuntime().exec("deployment-file-2.yaml");
         log.info("process: {}",process);
         System.out.println(process);
         return ResponseEntity.ok("Deployed........");
