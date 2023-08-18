@@ -25,7 +25,7 @@ public class HelmListActor extends AbstractActor {
                     process.waitFor();
     AtomicReference<String> message = new AtomicReference<>("");
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                    bufferedReader.lines().forEach(m -> message.set(message.get()+m));
+                    bufferedReader.lines().forEach(m -> message.set(message.get()+m+" "));
 
                     BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
                     errorReader.lines().forEach(System.out::println);

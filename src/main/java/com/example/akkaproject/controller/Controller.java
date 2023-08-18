@@ -4,33 +4,29 @@ import akka.actor.Props;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.pattern.PatternsCS;
+import com.example.akkaproject.actors.HelmLintActor;
 import com.example.akkaproject.actors.HelmListActor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-import java.util.concurrent.Future;
 
 @RestController
 @Slf4j
 public class Controller {
 
     private final ActorRef actorRef;
-    //private final ActorRef actorRefReciever;
+    private final ActorRef actorHelmLintRef;
+
+    //private final ActorRef actorHelmInstallRef;
 
     @Autowired
     public Controller(ActorSystem actorSystem) {
         this.actorRef = actorSystem.actorOf(Props.create(HelmListActor.class),"helm-chart");
-        //this.actorRefReciever = actorSystem.actorOf(Props.create(HelmListActor.class),"helm-chart");
+        this.actorHelmLintRef = actorSystem.actorOf(Props.create(HelmLintActor.class),"helm-chart-lint");
     }
 
     @GetMapping("/ping")
@@ -49,9 +45,6 @@ public class Controller {
 
     @GetMapping("/get-helm")
     private ResponseEntity<String> getHelmChart () throws IOException, InterruptedException {
-        String[] command = {"helm list"};
-
-        //actorRef.tell(new HelmListActor("helm list"), actorRef);
 
         CompletionStage<Object> ask = PatternsCS.ask(actorRef, "helm list", 30000);
 
@@ -59,10 +52,60 @@ public class Controller {
                 throwable -> "Error happened"
         ).toCompletableFuture().join().toString());
 
+    }
 
-/*        return ResponseEntity.ok(ask.thenApplyAsync(response -> "Success").exceptionally(
+    @GetMapping("/get-lint")
+    private ResponseEntity<String> getHelmLintChart () throws IOException, InterruptedException {
+        CompletionStage<Object> ask = PatternsCS.ask(actorHelmLintRef, "helm lint ./akka-helm-chart", 30000);
+
+        return ResponseEntity.ok(ask.thenApplyAsync(response -> response).exceptionally(
                 throwable -> "Error happened"
-        ).toCompletableFuture().join().toString());*/
+        ).toCompletableFuture().join().toString());
+
+    }
+
+    @DeleteMapping("/helm-unInstall")
+    private ResponseEntity<String> unInstallHelmChart (@RequestParam String name) throws IOException, InterruptedException {
+        CompletionStage<Object> ask = PatternsCS.ask(actorHelmLintRef,
+                "helm uninstall "+name, 30000);
+
+        return ResponseEntity.ok(ask.thenApplyAsync(response -> response).exceptionally(
+                throwable -> "Error happened"
+        ).toCompletableFuture().join().toString());
+
+    }
+
+    @GetMapping("/helm-install")
+    private ResponseEntity<String> installHelm (@RequestParam String name) throws IOException, InterruptedException {
+        CompletionStage<Object> ask = PatternsCS.ask(actorHelmLintRef,
+                "helm install "+name+" ./akka-helm-chart", 30000);
+
+        return ResponseEntity.ok(ask.thenApplyAsync(response -> response).exceptionally(
+                throwable -> "Error happened"
+        ).toCompletableFuture().join().toString());
+
+    }
+
+    @PutMapping("/helm-upgrade")
+    private ResponseEntity<String> upgradeHelm (@RequestParam String name) throws IOException, InterruptedException {
+        CompletionStage<Object> ask = PatternsCS.ask(actorHelmLintRef,
+                "helm upgrade "+name+" ./akka-helm-chart", 30000);
+
+        return ResponseEntity.ok(ask.thenApplyAsync(response -> response).exceptionally(
+                throwable -> "Error happened"
+        ).toCompletableFuture().join().toString());
+
+    }
+
+    @GetMapping("/kubectl-get-all")
+    private ResponseEntity<String> kubectlGetAll () throws IOException, InterruptedException {
+        CompletionStage<Object> ask = PatternsCS.ask(actorHelmLintRef,
+                "kubectl get all", 30000);
+
+        return ResponseEntity.ok(ask.thenApplyAsync(response -> response).exceptionally(
+                throwable -> "Error happened"
+        ).toCompletableFuture().join().toString());
+
     }
 
     @GetMapping("/deploy")
