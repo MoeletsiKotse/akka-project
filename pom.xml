@@ -72,6 +72,54 @@
 			<version>3.3.0</version>
 		</dependency>-->
 
+<!--		<dependency>-->
+<!--			<groupId>io.kamon</groupId>-->
+<!--			<artifactId>kamon-apm-reporter_2.13</artifactId>-->
+<!--			<version>2.5.9</version>-->
+<!--		</dependency>-->
+
+<!--		<dependency>-->
+<!--			<groupId>io.kamon</groupId>-->
+<!--			<artifactId>kamon-bundle_2.13</artifactId>-->
+<!--			<version>2.5.9</version>-->
+<!--		</dependency>-->
+
+<!--		<dependency>-->
+<!--			<groupId>io.kamon</groupId>-->
+<!--			<artifactId>kamon-akka_2.12</artifactId>-->
+<!--			<version>2.5.9</version>-->
+<!--		</dependency>-->
+
+<!--		<dependency>-->
+<!--			<groupId>io.kamon</groupId>-->
+<!--			<artifactId>kamon-core_2.12</artifactId>-->
+<!--			<version>2.5.9</version>-->
+<!--		</dependency>-->
+
+		<dependency>
+			<groupId>io.kamon</groupId>
+			<artifactId>kamon-bundle_2.13</artifactId>
+			<version>2.5.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.kamon</groupId>
+			<artifactId>kamon-apm-reporter_2.13</artifactId>
+			<version>2.5.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.2.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-library</artifactId>
+			<version>2.13.8</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

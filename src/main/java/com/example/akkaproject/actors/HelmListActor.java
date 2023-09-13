@@ -2,19 +2,44 @@ package com.example.akkaproject.actors;
 
 import akka.actor.AbstractActor;
 import akka.actor.Props;
-import akka.actor.typed.Behavior;
-import akka.actor.typed.javadsl.Behaviors;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class HelmListActor extends AbstractActor {
+    //private Metric.Counter customCounter;
+    @Override
+    public void preStart() throws Exception {
+        //super.preStart();
+    }
+
+    @Override
+    public void postStop() throws Exception {
+        //super.postStop();
+    }
+
+
+//    public void YourActor() {
+//        // Create a custom counter
+//        customCounter = Kamon.metrics().counter("your_custom_counter");
+//
+//        // Schedule a message to be sent every second
+//        getContext().system().scheduler().schedule(
+//                Duration.ZERO,
+//                Duration.ofSeconds(1),
+//                getSelf(),
+//                "increment_counter",
+//                getContext().getSystem().dispatcher(),
+//                null
+//        );
+//    }
+
     @Override
     public Receive createReceive() {
+
         return receiveBuilder().
 /*                match(String.class,helmName -> {
                     System.out.println(helmName);

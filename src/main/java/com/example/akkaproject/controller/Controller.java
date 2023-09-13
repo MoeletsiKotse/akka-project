@@ -97,7 +97,7 @@ public class Controller {
 
     }
 
-    @GetMapping("/kubectl-get-all")
+    @GetMapping("/get-all-resources")
     private ResponseEntity<String> kubectlGetAll () throws IOException, InterruptedException {
         CompletionStage<Object> ask = PatternsCS.ask(actorHelmLintRef,
                 "kubectl get all", 30000);
